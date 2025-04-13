@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MyConcertApp</string>
+    <string name="login_title">Bejelentkezés</string>
+    <string name="register_title">Regisztráció</string>
+    <string name="password">Jelszó</string>
+    <string name="email">E-mail</string>
+    <string name="login_button">Bejelentkezés</string>
+    <string name="register_button">Regisztráció</string>
+    <string name="register_here">Regisztrálj itt!</string>
+    <string name="welcome_user">Üdvözlet!</string>
+</resources>

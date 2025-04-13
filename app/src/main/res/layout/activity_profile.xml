@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/profileRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <!-- 1) Tartalom konténer (email, jegyek cím, jegyek listája) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- Email -->
+        <TextView
+            android:id="@+id/tvUserData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Email: user@example.com"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Megvásárolt jegyek (cím) -->
+        <TextView
+            android:id="@+id/tvTicketsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Megvásárolt jegyek"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Jegylista -->
+        <TextView
+            android:id="@+id/tvPurchasedTickets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="• Rock Fesztivál\n• Jazz Est\n• Pop Show" />
+    </LinearLayout>
+
+    <!-- 2) VISSZA gomb alul -->
+    <Button
+        android:id="@+id/btnBackToMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="VISSZA"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>
