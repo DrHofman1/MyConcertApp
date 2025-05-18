@@ -2,17 +2,22 @@ package com.example.myconcertapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.widget.Button;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -21,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvWelcome;
     private RecyclerView rvConcerts;
     private ConcertAdapter concertAdapter;
+    private FirebaseFirestore db;
+    private ArrayList<Concert> concertList = new ArrayList<>();
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,42 +37,55 @@ public class MainActivity extends AppCompatActivity {
 
         tvWelcome = findViewById(R.id.tvWelcome);
         rvConcerts = findViewById(R.id.rvConcerts);
+        db = FirebaseFirestore.getInstance();
 
         // Fade-in animáció a root layout-ra
         Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         findViewById(R.id.mainRoot).startAnimation(fadeIn);
 
-        // Felhasználó email
+        // Felhasználó email kiírása
         String userEmail = "Ismeretlen felhasználó";
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         }
         tvWelcome.setText("Üdv, " + userEmail + "!");
 
-        // Dummy adatok
-        ArrayList<Concert> concertList = new ArrayList<>();
-        concertList.add(new Concert("Rock Fesztivál", "2025.05.10.", "Igazi Rock-buli", "5000 Ft"));
-        concertList.add(new Concert("Pop Show", "2025.06.15.", "Pop sztárok nagy színpadon", "6500 Ft"));
-        concertList.add(new Concert("Jazz Est", "2025.07.01.", "Lazulós jazz session", "4000 Ft"));
-
-
-        concertAdapter = new ConcertAdapter(concertList, concert -> {
-            // Kattintásra ConcertDetailsActivity
-            ConcertDetailsActivity.start(MainActivity.this, concert);
-        });
+        // RecyclerView setup
         rvConcerts.setLayoutManager(new LinearLayoutManager(this));
-        rvConcerts.setAdapter(concertAdapter);
+
+        // Koncertek lekérése Firestore-ból
+        loadConcertsFromFirestore();
+
+        // Kijelentkezés gomb
         Button btnLogout = findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(v -> {
-            // Firebase kijelentkezés
             FirebaseAuth.getInstance().signOut();
-            // Vissza a LoginActivity-re
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         });
-
     }
+
+    private void loadConcertsFromFirestore() {
+        db.collection("concerts")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    concertList.clear();
+                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                        Concert concert = doc.toObject(Concert.class);
+                        concertList.add(concert);
+                    }
+                    concertAdapter = new ConcertAdapter(concertList, concert -> {
+                        ConcertDetailsActivity.start(MainActivity.this, concert);
+                    });
+                    rvConcerts.setAdapter(concertAdapter);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Hiba a koncertek lekérésekor: ", e);
+                    Toast.makeText(this, "Nem sikerült betölteni a koncerteket", Toast.LENGTH_SHORT).show();
+                });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -74,13 +95,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_profile) {
-            // Indítsuk a ProfileActivity-t
             Intent intent = new Intent(this, ProfileActivity.class);
             startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: Koncertek frissítése…");
+        loadConcertsFromFirestore(); // újratölti a koncerteket
+    }
 
 }

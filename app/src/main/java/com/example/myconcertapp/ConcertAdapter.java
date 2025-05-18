@@ -4,8 +4,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public class ConcertAdapter extends RecyclerView.Adapter<ConcertAdapter.ConcertViewHolder> {
@@ -15,11 +17,11 @@ public class ConcertAdapter extends RecyclerView.Adapter<ConcertAdapter.ConcertV
     }
 
     private final List<Concert> concertList;
-    private final OnConcertClickListener clickListener;
+    private final OnConcertClickListener listener;
 
-    public ConcertAdapter(List<Concert> concertList, OnConcertClickListener clickListener) {
+    public ConcertAdapter(List<Concert> concertList, OnConcertClickListener listener) {
         this.concertList = concertList;
-        this.clickListener = clickListener;
+        this.listener = listener;
     }
 
     @NonNull
@@ -32,7 +34,12 @@ public class ConcertAdapter extends RecyclerView.Adapter<ConcertAdapter.ConcertV
 
     @Override
     public void onBindViewHolder(@NonNull ConcertViewHolder holder, int position) {
-        holder.bind(concertList.get(position));
+        Concert concert = concertList.get(position);
+        holder.tvName.setText(concert.getName());
+        holder.tvDate.setText("Dátum: " + concert.getDate());
+        holder.tvPrice.setText("Ár: " + concert.getPrice());
+
+        holder.itemView.setOnClickListener(v -> listener.onConcertClick(concert));
     }
 
     @Override
@@ -40,29 +47,14 @@ public class ConcertAdapter extends RecyclerView.Adapter<ConcertAdapter.ConcertV
         return concertList.size();
     }
 
-    class ConcertViewHolder extends RecyclerView.ViewHolder {
-        private final TextView tvName;
-        private final TextView tvDate;
-        private final TextView tvPrice; // új mező
+    public static class ConcertViewHolder extends RecyclerView.ViewHolder {
+        TextView tvName, tvDate, tvPrice;
 
         public ConcertViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvName = itemView.findViewById(R.id.tvConcertItemName);
-            tvDate = itemView.findViewById(R.id.tvConcertItemDate);
-            tvPrice = itemView.findViewById(R.id.tvConcertItemPrice); // init
-        }
-
-        public void bind(Concert concert) {
-            tvName.setText(concert.getName());
-            tvDate.setText("Dátum: " + concert.getDate());
-            tvPrice.setText("Ár: " + concert.getPrice());
-
-            itemView.setOnClickListener(v -> {
-                if (clickListener != null) {
-                    clickListener.onConcertClick(concert);
-                }
-            });
+            tvName = itemView.findViewById(R.id.tvConcertName);
+            tvDate = itemView.findViewById(R.id.tvConcertDate);
+            tvPrice = itemView.findViewById(R.id.tvConcertPrice);
         }
     }
-
 }

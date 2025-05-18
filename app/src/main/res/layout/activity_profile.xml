@@ -8,46 +8,88 @@
     android:padding="16dp"
     android:background="@android:color/white">
 
-    <!-- 1) Tartalom konténer (email, jegyek cím, jegyek listája) -->
-    <LinearLayout
+    <!-- Csak megjelenítés -->
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email: user@example.com"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Név -->
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Név"
+        android:inputType="textPersonName"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Szerepkör -->
+    <Spinner
+        android:id="@+id/spinnerRole"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Teszt figyelmeztetés -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(A szerepkör tesztelés miatt módosítható. A kiadásban nem elérhető.)"
+        android:textSize="12sp"
+        android:textColor="#888888"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Mentés gomb -->
+    <Button
+        android:id="@+id/btnSaveChanges"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mentés"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Megvásárolt jegyek -->
+    <TextView
+        android:id="@+id/tvTicketsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Megvásárolt jegyek"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/tvDeleteHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="💡 Tipp: Nyomj hosszan egy jegyre a törléshez"
+        android:textSize="14sp"
+        android:textColor="#888888"
+        android:layout_marginBottom="8dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTickets"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_marginBottom="16dp" />
 
-        <!-- Email -->
-        <TextView
-            android:id="@+id/tvUserData"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="Email: user@example.com"
-            android:layout_marginBottom="16dp"/>
+    <Button
+        android:id="@+id/btnManageConcerts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Koncertek kezelése (csak rendezőknek)"
+        android:visibility="gone"
+        android:layout_marginBottom="8dp"/>
 
-        <!-- Megvásárolt jegyek (cím) -->
-        <TextView
-            android:id="@+id/tvTicketsTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Megvásárolt jegyek"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp"/>
 
-        <!-- Jegylista -->
-        <TextView
-            android:id="@+id/tvPurchasedTickets"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="• Rock Fesztivál\n• Jazz Est\n• Pop Show" />
-    </LinearLayout>
 
-    <!-- 2) VISSZA gomb alul -->
+    <!-- Vissza gomb -->
     <Button
         android:id="@+id/btnBackToMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="VISSZA"
-        android:layout_marginTop="16dp"/>
+        android:text="VISSZA" />
 </LinearLayout>

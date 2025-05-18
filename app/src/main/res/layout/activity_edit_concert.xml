@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/etConcertName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Név" />
+
+    <EditText
+        android:id="@+id/etConcertDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Dátum" />
+
+    <EditText
+        android:id="@+id/etConcertInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Leírás" />
+
+    <EditText
+        android:id="@+id/etConcertPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ár" />
+
+    <Button
+        android:id="@+id/btnSaveChanges"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mentés" />
+
+    <Button
+        android:id="@+id/btnDeleteConcert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Koncert törlése"
+        android:textColor="#FFFFFF"
+        android:background="#B00020"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Vissza"
+        android:layout_marginTop="8dp" />
+</LinearLayout>

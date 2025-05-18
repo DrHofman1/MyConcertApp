@@ -8,4 +8,10 @@
     <string name="register_button">Regisztráció</string>
     <string name="register_here">Regisztrálj itt!</string>
     <string name="welcome_user">Üdvözlet!</string>
+    <string-array name="roles_array">
+        <item>Felhasználó (1)</item>
+        <item>Rendező (2)</item>
+        <item>Adminisztrátor (3)</item>
+    </string-array>
+
 </resources>

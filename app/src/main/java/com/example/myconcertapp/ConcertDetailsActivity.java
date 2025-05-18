@@ -3,10 +3,18 @@ package com.example.myconcertapp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ConcertDetailsActivity extends AppCompatActivity {
 
@@ -47,9 +55,29 @@ public class ConcertDetailsActivity extends AppCompatActivity {
         tvConcertInfo.setText(info + "\nDátum: " + date);
 
         btnBuyTicket.setOnClickListener(v -> {
-            // Itt indulna a valódi jegyvásárlás folyamat
-            Toast.makeText(this, "Jegyvásárlás: " + name, Toast.LENGTH_SHORT).show();
+            Animation scaleAnim = AnimationUtils.loadAnimation(this, R.anim.scale_up);
+            btnBuyTicket.startAnimation(scaleAnim);
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            Map<String, Object> ticket = new HashMap<>();
+            ticket.put("userId", userId);
+            ticket.put("concertName", name);
+            ticket.put("concertDate", date);
+            ticket.put("concertPrice", price);
+
+            db.collection("tickets")
+                    .add(ticket)
+                    .addOnSuccessListener(documentReference -> {
+                        Toast.makeText(this, "Jegyvásárlás sikeres!", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Hiba történt a jegyvásárláskor.", Toast.LENGTH_SHORT).show();
+                    });
         });
+
+
         TextView tvConcertPrice = findViewById(R.id.tvConcertPrice);
         tvConcertPrice.setText("Ár: " + price);
 
@@ -60,5 +88,6 @@ public class ConcertDetailsActivity extends AppCompatActivity {
         });
 
     }
+
 }
 

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <EditText
+        android:id="@+id/etConcertName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Koncert neve" />
+
+    <EditText
+        android:id="@+id/etConcertDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Dátum (pl. 2025.06.15.)" />
+
+    <EditText
+        android:id="@+id/etConcertInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Leírás" />
+
+    <EditText
+        android:id="@+id/etConcertPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ár (pl. 5000 Ft)" />
+
+    <Button
+        android:id="@+id/btnAddConcert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Koncert hozzáadása"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Saját koncertek"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/tvDeleteHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="💡 Tipp: Nyomj rá a jegyre a törléshez"
+        android:textSize="14sp"
+        android:textColor="#888888"
+        android:layout_marginBottom="8dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvOwnConcerts"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Vissza gomb -->
+    <Button
+        android:id="@+id/btnBackToMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="VISSZA" />
+</LinearLayout>
